@@ -1,0 +1,41 @@
+version: '3.7'
+
+services:
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_DB=main
+      - POSTGRES_PASSWORD=main
+      - POSTGRES_USER=main
+      - POSTGRES_HOST=db
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+
+  main-1.3:
+    build:
+      context: .
+      target: sa1_3
+      dockerfile: Dockerfile
+    links:
+      - postgres
+    environment:
+      - LOG_LEVEL=debug
+      - DATABASE_URL=postgresql://main:main@postgres:5432/main?sslmode=disable
+      - SQLALCHEMY_WARN_20=1
+    command: sleep 1000000
+
+  main-1.4:
+    build:
+      context: .
+      target: sa1_4
+      dockerfile: Dockerfile
+    links:
+      - postgres
+    environment:
+      - LOG_LEVEL=debug
+      - DATABASE_URL=postgresql://main:main@postgres:5432/main?sslmode=disable
+      - SQLALCHEMY_WARN_20=1
+    command: sleep 1000000
+
+

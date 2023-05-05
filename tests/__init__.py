@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import warnings
+import os
 
 import sqlalchemy as sa
 import sqlalchemy_utils
@@ -35,7 +36,7 @@ sqlalchemy_utils.i18n.get_locale = lambda: 'en'
 
 
 class DeclarativeTestCase(object):
-    engine_uri = 'postgresql://postgres@localhost/sqlalchemy_i18n_test'
+    engine_uri = os.environ.get('DATABASE_URL', 'postgresql://postgres@localhost/sqlalchemy_i18n_test')
     locales = ['en', 'fi']
     create_tables = True
     configure_mappers = True
